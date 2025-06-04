@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>AceStream a VLC</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #1e1e2f;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem;
+    }
+
+    input, button {
+      padding: 0.7rem;
+      margin: 0.5rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    input {
+      width: 90%;
+      max-width: 500px;
+    }
+
+    button {
+      background-color: #3f51b5;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #303f9f;
+    }
+
+    .output {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: #2c2c3e;
+      border-radius: 10px;
+      word-break: break-word;
+      max-width: 90%;
+      text-align: center;
+    }
+
+    .btns {
+      margin-top: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    #copiadoMsg {
+      margin-top: 1rem;
+      font-size: 0.95rem;
+      color: #4caf50;
+      display: none;
+      text-align: center;
+    }
+
+    #selector {
+      display: none;
+      margin-top: 1rem;
+      text-align: center;
+    }
+
+    .tutorial {
+      display: none;
+      margin-top: 1rem;
+      background-color: #2e2e40;
+      padding: 1rem;
+      border-radius: 10px;
+      max-width: 800px;
+    }
+
+    .paso {
+      margin: 1rem 0;
+      text-align: center;
+    }
+
+    .paso img {
+      max-width: 100%;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    .paso img:hover {
+      transform: scale(1.03);
+    }
+
+    .error-msg {
+      color: #ff4d4d;
+      margin-top: 0.5rem;
+      font-size: 0.95rem;
+      text-align: center;
+      display: none;
+    }
+
+    .img-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(5px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .img-overlay img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.6);
+    }
+
+    .img-overlay .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-size: 2rem;
+      color: #fff;
+      cursor: pointer;
+      z-index: 1001;
+    }
+
+    @media (min-width: 600px) {
+      .btns {
+        flex-direction: row;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Reproducir AceStream en VLC</h1>
+
+  <input type="text" id="acestreamInput" placeholder="Pega el enlace AceStream o el hash">
+  <button onclick="generar()">Generar enlace</button>
+
+  <div id="errorMsg" class="error-msg"></div>
+
+  <div id="resultado" class="output" style="display:none;">
+    <div id="linkOutput"></div>
+
+    <div class="btns">
+      <button onclick="copiar()">📋 Copiar enlace</button>
+      <button onclick="mostrarSelector()">❓ ¿Cómo abrir en VLC?</button>
+    </div>
+  </div>
+
+  <div id="copiadoMsg">¡Enlace copiado!</div>
+
+  <div id="selector">
+    <p><strong>Selecciona tu dispositivo:</strong></p>
+    <button onclick="mostrarTutorial('pc')">🖥️ PC</button>
+    <button onclick="mostrarTutorial('movil')">📱 Móvil</button>
+  </div>
+
+  <!-- Tutorial PC -->
+  <div id="tutorial-pc" class="tutorial">
+    <h2 style="text-align: center;">Tutorial para PC</h2>
+    <div class="paso">
+      <p>1. Abre VLC Media Player</p>
+    </div>
+    <div class="paso">
+      <p>2. Ve a "Medio &gt; Abrir ubicación de red..."</p>
+      <img src="Tutorial/PC/1.png" alt="Abrir ubicación de red en PC">
+    </div>
+    <div class="paso">
+      <p>3. Pega el enlace y pulsa "Reproducir"</p>
+      <img src="Tutorial/PC/3.png" alt="Pegar enlace en PC">
+    </div>
+  </div>
+
+  <!-- Tutorial Móvil -->
+  <div id="tutorial-movil" class="tutorial">
+    <h2 style="text-align: center;">Tutorial para Móvil</h2>
+    <div class="paso">
+      <p>1. Abre la app VLC</p>
+    </div>
+    <div class="paso">
+      <p>2. Toca el icono de 3 puntos (Más) y elige "Nuevo flujo"</p>
+      <img src="Tutorial/Movil/1.jpeg" alt="Menú transmisión" style="width: 50vh;">
+    </div>
+    <div class="paso">
+      <p>3. Pega el enlace y pulsa el boton de reproducir</p>
+      <img src="Tutorial/Movil/2.jpeg" alt="Pegar y reproducir" style="width: 50vh;">
+    </div>
+    <div class="paso">
+      <p>4. Despues de darle a reproducir tienes que esperarte unos segundos a que cargue todo para que se abra el reproductor con el contenido preparado. Si ocurre un error te avisa justo al momento de cuando le das a reproducir.</p>
+    </div>
+  </div>
+
+  <!-- Visor de imágenes ampliadas -->
+  <div id="imgViewer" class="img-overlay" style="display:none;" onclick="cerrarImagen()">
+    <span class="close-btn" onclick="cerrarImagen(event)">❌</span>
+    <img id="zoomedImg" src="" alt="Imagen ampliada">
+  </div>
+
+  <!-- Lista M3U8 -->
+   <br>
+   <br>
+   <br>
+   <div>
+    <p>Lista M3U8 con mas de 100 canales</p>
+    <p>Introduce la URL de la lista en el mismo sitio donde se introducen los enlaces en VLC o descargatela y la reproduces en el VLC</p>
+   </div>
+  <script>
+    let finalUrl = '';
+
+    function extraerPID(enlace) {
+      return enlace.replace('acestream://', '').trim();
+    }
+
+    function generar() {
+      const input = document.getElementById('acestreamInput').value.trim();
+      const errorDiv = document.getElementById('errorMsg');
+      errorDiv.style.display = 'none';
+
+      if (!input) {
+        errorDiv.textContent = "⚠️ Ingresa un enlace o hash de AceStream";
+        errorDiv.style.display = 'block';
+        return;
+      }
+
+      const pid = extraerPID(input);
+      if (pid.length < 20) {
+        errorDiv.textContent = "⚠️ El hash parece inválido";
+        errorDiv.style.display = 'block';
+        return;
+      }
+
+      finalUrl = `http://34.172.252.191:8000/pid/${pid}/stream.mp4`;
+      document.getElementById('linkOutput').innerText = finalUrl;
+      document.getElementById('resultado').style.display = 'block';
+    }
+
+    function copiar() {
+      if (!finalUrl) return;
+      navigator.clipboard.writeText(finalUrl).then(() => {
+        const msg = document.getElementById('copiadoMsg');
+        msg.style.display = 'block';
+        setTimeout(() => {
+          msg.style.display = 'none';
+        }, 3000);
+      });
+    }
+
+    function mostrarSelector() {
+      document.getElementById('selector').style.display = 'block';
+    }
+
+    function mostrarTutorial(tipo) {
+      document.getElementById('tutorial-pc').style.display = 'none';
+      document.getElementById('tutorial-movil').style.display = 'none';
+
+      if (tipo === 'pc') {
+        document.getElementById('tutorial-pc').style.display = 'block';
+      } else {
+        document.getElementById('tutorial-movil').style.display = 'block';
+      }
+    }
+
+    // Imágenes ampliadas
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.paso img').forEach(img => {
+        img.addEventListener('click', (e) => {
+          e.stopPropagation();
+          document.getElementById('zoomedImg').src = img.src;
+          document.getElementById('imgViewer').style.display = 'flex';
+        });
+      });
+    });
+
+    function cerrarImagen(event) {
+      if (!event || event.target === event.currentTarget || event.target.classList.contains('close-btn')) {
+        document.getElementById('imgViewer').style.display = 'none';
+        document.getElementById('zoomedImg').src = '';
+      }
+    }
+  </script>
+
+</body>
+</html>
