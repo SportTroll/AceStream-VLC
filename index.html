@@ -145,6 +145,12 @@
 </head>
 <body>
 
+  <!-- Indicador de estado del servidor -->
+  <div id="estado-servidor" style="position: absolute; top: 1rem; right: 1rem; display: flex; align-items: center; gap: 0.5rem; font-size: 1rem; font-weight: bold;">
+    <span id="estado-texto">Cargando...</span>
+    <span id="estado-circulo" style="width: 12px; height: 12px; border-radius: 50%; background-color: gray;"></span>
+  </div>
+
   <h1>Reproducir AceStream en VLC (Beta)</h1>
 
   <input type="text" id="acestreamInput" placeholder="Pega el enlace AceStream o el hash">
@@ -200,7 +206,7 @@
       <img src="Tutorial/Movil/2.jpeg" alt="Pegar y reproducir" style="width: 50vh;">
     </div>
     <div class="paso">
-      <p>4. Despues de darle a reproducir tienes que esperarte unos segundos a que cargue todo para que se abra el reproductor con el contenido preparado. Si ocurre un error te avisa justo al momento de cuando le das a reproducir.</p>
+      <p>4. Espera unos segundos a que cargue. Si hay un error, aparecerá de inmediato tras pulsar reproducir.</p>
     </div>
   </div>
 
@@ -211,33 +217,104 @@
   </div>
 
   <!-- Lista M3U8 -->
-   <br>
-   <br>
-   <br>
-   <div>
-    <p>Lista M3U8 con mas de 100 canales en <a style="color: #4caf50;" href="https://labored-lace.surge.sh/canales.m3u8">https://lc.cx/ACEVLC</a></p>
-    <p>Introduce la URL de la lista en el mismo sitio donde se introducen los enlaces en VLC (Ubicacion de Red / Nuevo flujo) o descargatela y la reproduces en el VLC</p>
-    <p style="color: red;">NOTA: Para movil es mejor descargarse la lista y abrirla con VLC ya que mediante Nuevo Flujo tarda mucho (Lo malo es que si hay algun problema y actualizo la lista tendrias que descargartela otra vez)</p>
-   </div>
+  <br><br><br>
+  <div>
+    <p>Lista M3U8 con más de 100 canales en <a style="color: #4caf50;" href="https://labored-lace.surge.sh/canales.m3u8">https://lc.cx/ACEVLC</a></p>
+    <p>Introduce la URL en VLC (Ubicación de Red / Nuevo flujo) o descárgala y ábrela en VLC</p>
+    <p style="color: red;">NOTA: En móvil es mejor descargarla y abrir con VLC. Si se actualiza, deberás volver a descargarla.</p>
+  </div>
 
-   <!-- Horario -->
-<div style="margin-top: 3rem; background-color: #2c2c3e; border-radius: 12px; color: #fff; padding: 1.5rem 2rem; max-width: 400px; text-align: left;">
-  <h2 style="text-align: center; margin-bottom: 1rem; font-size: 1.2rem;">🕒 Horario del Servidor</h2>
-  <table style="width: 100%; border-collapse: collapse; font-size: 1rem;">
-    <tbody>
-      <tr><td style="padding: 6px 10px;">Lunes</td><td style="padding: 6px 10px; text-align: right;">11:00 - 23:59</td></tr>
-      <tr><td style="padding: 6px 10px;">Martes</td><td style="padding: 6px 10px; text-align: right;">11:00 - 23:59</td></tr>
-      <tr><td style="padding: 6px 10px;">Miércoles</td><td style="padding: 6px 10px; text-align: right;">11:00 - 23:59</td></tr>
-      <tr><td style="padding: 6px 10px;">Jueves</td><td style="padding: 6px 10px; text-align: right;">11:00 - 23:59</td></tr>
-      <tr><td style="padding: 6px 10px;">Viernes</td><td style="padding: 6px 10px; text-align: right;">07:00 - 01:30</td></tr>
-      <tr><td style="padding: 6px 10px;">Sábado</td><td style="padding: 6px 10px; text-align: right;">07:00 - 01:30</td></tr>
-      <tr><td style="padding: 6px 10px;">Domingo</td><td style="padding: 6px 10px; text-align: right;">07:00 - 01:30</td></tr>
-    </tbody>
-  </table>
+  <!-- Horario -->
+  <div style="margin-top: 3rem; background-color: #2c2c3e; border-radius: 12px; color: #fff; padding: 1.5rem 2rem; max-width: 400px; text-align: left;">
+    <h2 style="text-align: center; margin-bottom: 1rem; font-size: 1.2rem;">🕒 Horario del Servidor</h2>
+    <table style="width: 100%; border-collapse: collapse; font-size: 1rem;">
+      <tbody>
+        <tr><td style="padding: 6px 10px;">Lunes</td><td style="padding: 6px 10px; text-align: right;">11:00 - 23:59</td></tr>
+        <tr><td style="padding: 6px 10px;">Martes</td><td style="padding: 6px 10px; text-align: right;">11:00 - 23:59</td></tr>
+        <tr><td style="padding: 6px 10px;">Miércoles</td><td style="padding: 6px 10px; text-align: right;">11:00 - 23:59</td></tr>
+        <tr><td style="padding: 6px 10px;">Jueves</td><td style="padding: 6px 10px; text-align: right;">11:00 - 23:59</td></tr>
+        <tr><td style="padding: 6px 10px;">Viernes</td><td style="padding: 6px 10px; text-align: right;">07:00 - 01:30</td></tr>
+        <tr><td style="padding: 6px 10px;">Sábado</td><td style="padding: 6px 10px; text-align: right;">07:00 - 01:30</td></tr>
+        <tr><td style="padding: 6px 10px;">Domingo</td><td style="padding: 6px 10px; text-align: right;">07:00 - 01:30</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Sección FAQ -->
+<div style="margin-top: 4rem; max-width: 800px; width: 100%;">
+  <h2 style="text-align: center; margin-bottom: 1rem; font-size: 1.5rem;">❓ Preguntas Frecuentes (FAQ)</h2>
+  
+  <div class="faq-item" style="background-color: #2c2c3e; margin-bottom: 1rem; border-radius: 8px; overflow: hidden;">
+    <button class="faq-question" style="width: 100%; background: none; border: none; color: #fff; text-align: left; padding: 1rem; font-size: 1rem; font-weight: bold; display: flex; justify-content: space-between; cursor: pointer;">
+      ¿Necesito tener AceStream instalado?
+      <span class="faq-icon">▼</span>
+    </button>
+    <div class="faq-answer" style="display: none; padding: 0 1rem 1rem; font-size: 0.95rem; color: #ccc;">
+      No, este sitio convierte los enlaces a un formato que puedes abrir directamente en VLC sin tener que instalar AceStream.
+    </div>
+  </div>
+
+  <div class="faq-item" style="background-color: #2c2c3e; margin-bottom: 1rem; border-radius: 8px; overflow: hidden;">
+    <button class="faq-question" style="width: 100%; background: none; border: none; color: #fff; text-align: left; padding: 1rem; font-size: 1rem; font-weight: bold; display: flex; justify-content: space-between; cursor: pointer;">
+      ¿Este sitio funciona en todos los dispositivos?
+      <span class="faq-icon">▼</span>
+    </button>
+    <div class="faq-answer" style="display: none; padding: 0 1rem 1rem; font-size: 0.95rem; color: #ccc;">
+      Sí, puedes generar el enlace desde cualquier dispositivo. Para reproducirlo, necesitas tener VLC Media Player instalado.
+    </div>
+  </div>
+
+  <div class="faq-item" style="background-color: #2c2c3e; margin-bottom: 1rem; border-radius: 8px; overflow: hidden;">
+    <button class="faq-question" style="width: 100%; background: none; border: none; color: #fff; text-align: left; padding: 1rem; font-size: 1rem; font-weight: bold; display: flex; justify-content: space-between; cursor: pointer;">
+      ¿Se puede compartir el enlace generado con otras personas?
+      <span class="faq-icon">▼</span>
+    </button>
+    <div class="faq-answer" style="display: none; padding: 0 1rem 1rem; font-size: 0.95rem; color: #ccc;">
+      Sí, el enlace HTTP generado puede ser compartido. Sin embargo, si el servidor está apagado, no funcionará.
+    </div>
+  </div>
+
+  <div class="faq-item" style="background-color: #2c2c3e; margin-bottom: 1rem; border-radius: 8px; overflow: hidden;">
+    <button class="faq-question" style="width: 100%; background: none; border: none; color: #fff; text-align: left; padding: 1rem; font-size: 1rem; font-weight: bold; display: flex; justify-content: space-between; cursor: pointer;">
+      ¿Cuántas personas pueden ver contenido al mismo tiempo?
+      <span class="faq-icon">▼</span>
+    </button>
+    <div class="faq-answer" style="display: none; padding: 0 1rem 1rem; font-size: 0.95rem; color: #ccc;">
+      El servidor está diseñado para manejar aproximadamente a 10 personas. Si se supera, puede haber interrupciones.
+    </div>
+  </div>
+
+  <div class="faq-item" style="background-color: #2c2c3e; margin-bottom: 1rem; border-radius: 8px; overflow: hidden;">
+    <button class="faq-question" style="width: 100%; background: none; border: none; color: #fff; text-align: left; padding: 1rem; font-size: 1rem; font-weight: bold; display: flex; justify-content: space-between; cursor: pointer;">
+      ¿Por qué no me carga el canal en VLC?
+      <span class="faq-icon">▼</span>
+    </button>
+    <div class="faq-answer" style="display: none; padding: 0 1rem 1rem; font-size: 0.95rem; color: #ccc;">
+      Asegúrate de que el servidor esté activo. También puede ser que el canal no esté disponible en ese momento. Prueba con otro o revisa tu conexión.
+    </div>
+  </div>
+
+  <div class="faq-item" style="background-color: #2c2c3e; margin-bottom: 1rem; border-radius: 8px; overflow: hidden;">
+    <button class="faq-question" style="width: 100%; background: none; border: none; color: #fff; text-align: left; padding: 1rem; font-size: 1rem; font-weight: bold; display: flex; justify-content: space-between; cursor: pointer;">
+      ¿Cuando dejará de ser "Beta"?
+      <span class="faq-icon">▼</span>
+    </button>
+    <div class="faq-answer" style="display: none; padding: 0 1rem 1rem; font-size: 0.95rem; color: #ccc;">
+      La version "Beta" se mantendrá durante 1-2 meses. Durante este tiempo, se realizarán pruebas y ajustes para mejorar la estabilidad y el rendimiento del servicio. Y pasará a ser propiedad de <a href="https://miketroll.es" style="color: #4caf50;">MikeTroll</a>.
+    </div>
+  </div>
+
+  <div class="faq-item" style="background-color: #2c2c3e; margin-bottom: 1rem; border-radius: 8px; overflow: hidden;">
+    <button class="faq-question" style="width: 100%; background: none; border: none; color: #fff; text-align: left; padding: 1rem; font-size: 1rem; font-weight: bold; display: flex; justify-content: space-between; cursor: pointer;">
+      ¿Que pasará después de la "Beta"?
+      <span class="faq-icon">▼</span>
+    </button>
+    <div class="faq-answer" style="display: none; padding: 0 1rem 1rem; font-size: 0.95rem; color: #ccc;">
+      Pasará a ser un proyecto más estable y a propiedad de <a href="https://miketroll.es" style="color: #4caf50;">MikeTroll</a>. El servicio seguirá siendo GRATIS y se mantendrá la misma funcionalidad.
+    </div>
+  </div>
 </div>
 
-
-   
   <script>
     let finalUrl = '';
 
@@ -294,7 +371,6 @@
       }
     }
 
-    // Imágenes ampliadas
     document.addEventListener('DOMContentLoaded', () => {
       document.querySelectorAll('.paso img').forEach(img => {
         img.addEventListener('click', (e) => {
@@ -311,6 +387,90 @@
         document.getElementById('zoomedImg').src = '';
       }
     }
+
+    // Indicador de estado del servidor según horario
+    function verificarEstadoServidor() {
+      const ahora = new Date();
+      const dia = ahora.getDay(); // 0 = Domingo, 1 = Lunes, ..., 6 = Sábado
+      const hora = ahora.getHours();
+      const minutos = ahora.getMinutes();
+
+      const horarios = {
+        0: ['07:00', '01:30'],
+        1: ['11:00', '23:59'],
+        2: ['11:00', '23:59'],
+        3: ['11:00', '23:59'],
+        4: ['11:00', '23:59'],
+        5: ['07:00', '01:30'],
+        6: ['07:00', '01:30'],
+      };
+
+      function horaAminutos(horaStr) {
+        const [h, m] = horaStr.split(':').map(Number);
+        return h * 60 + m;
+      }
+
+      let minutosActuales = hora * 60 + minutos;
+      const [inicioStr, finStr] = horarios[dia];
+      const inicio = horaAminutos(inicioStr);
+      let fin = horaAminutos(finStr);
+
+      if (fin < inicio) {
+        if (minutosActuales < inicio) {
+          const diaAnterior = (dia + 6) % 7;
+          const [prevInicioStr, prevFinStr] = horarios[diaAnterior];
+          const prevInicio = horaAminutos(prevInicioStr);
+          const prevFin = horaAminutos(prevFinStr);
+          if (prevFin < prevInicio && minutosActuales <= prevFin) {
+            mostrarEstado(true);
+            return;
+          }
+        }
+        fin += 1440;
+        if (minutosActuales < inicio) {
+          minutosActuales += 1440;
+        }
+      }
+
+      const activo = minutosActuales >= inicio && minutosActuales <= fin;
+      mostrarEstado(activo);
+    }
+
+    function mostrarEstado(activo) {
+      const texto = document.getElementById('estado-texto');
+      const circulo = document.getElementById('estado-circulo');
+      if (activo) {
+        texto.textContent = 'Activo';
+        texto.style.color = '#4caf50';
+        circulo.style.backgroundColor = '#4caf50';
+      } else {
+        texto.textContent = 'Apagado';
+        texto.style.color = '#f44336';
+        circulo.style.backgroundColor = '#f44336';
+      }
+    }
+
+    // Acordeón FAQ
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.faq-question').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const answer = btn.nextElementSibling;
+        const icon = btn.querySelector('.faq-icon');
+        const isVisible = answer.style.display === 'block';
+
+        // Cerrar todos los demás
+        document.querySelectorAll('.faq-answer').forEach(a => a.style.display = 'none');
+        document.querySelectorAll('.faq-icon').forEach(i => i.textContent = '▼');
+
+        if (!isVisible) {
+          answer.style.display = 'block';
+          icon.textContent = '▲';
+        }
+      });
+    });
+  });
+
+    document.addEventListener('DOMContentLoaded', verificarEstadoServidor);
   </script>
 
 </body>
